@@ -1,15 +1,16 @@
-import express from 'express'
-import mainRoute from './mainRoute.js'
-import login from './user/login.js'
-import forgotPassword from './user/forgotPassword.js'
-import signup from './user/signup.js'
+import express from "express";
+import loginRouter from "./user/login.js";
+import { signup } from "./user/signup.js";
+import { forgotPassword } from "./user/forgotPassword.js";
+import { resetPassword } from "./user/resetPassword.js";
+import { verifyOtp } from "./user/verifyOtp.js";
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.use(
-    '/', mainRoute
-)
-routes.use('/user/login', login)
-routes.use('/user/forgot-password', forgotPassword)
-routes.use('/user/signup', signup)
-export default routes
+// Use the loginRouter for handling requests to "/user/login"
+routes.use("/user/login", loginRouter);
+routes.use("/user/signup", signup);
+routes.use("/user/forgot-password", forgotPassword);
+routes.use("/user/reset-password", resetPassword);
+routes.use("/user/verify-otp", verifyOtp);
+export default routes;

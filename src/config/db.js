@@ -1,8 +1,12 @@
-import mysql from 'mysql2'
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'palmstownhall'
-})
+import mysql from 'mysql2/promise';
 
-export default db
+const dbConfig = {
+    host: 'localhost', // your database host
+    user: 'root',      // your database user
+    password: 'password', // your database password
+    database: 'your_database_name' // your database name
+};
+
+const db = mysql.createPool(dbConfig); // Create a pool of connections
+
+export default db;

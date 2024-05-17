@@ -13,7 +13,7 @@ export const handleForgotPassword = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ status: "ERROR", message: "user does not exist" });
+      res.status(200).json({ status: "error", message: "user does not exist" });
     });
 };
 
@@ -24,7 +24,6 @@ const handleUserExist = (email, res) => {
       if (err) {
         reject({ status: "ERROR", message: "Error querying the database" });
       } else {
-        console.log("User data:", data); // Log the data here
         if (data.length === 0) {
           reject({ status: "ERROR", message: "User does not exist" });
         } else {
@@ -54,12 +53,12 @@ const checkAlreadySent = (email, res) => {
 const sendOtp = (email, res) => {
   const resetCode = crypto.randomBytes(3).toString("hex");
   const query = "INSERT INTO password_resets (email, reset_code) VALUES (?, ?)";
-  console.log("sending OTP...");
   db.query(query, [email, resetCode], (err, result) => {
     if (err) throw err;
     return res.status(200).json({
-      message: "Reset code sent to your email",
-      code: resetCode,
+      status: "success",
+      message: "we have sent you the code at your email.",
+      otp: resetCode,
     });
   });
 };
@@ -67,14 +66,13 @@ const sendOtp = (email, res) => {
 const resendOtp = (email, res) => {
   const resetCode = crypto.randomBytes(3).toString("hex");
   const query = "UPDATE password_resets SET reset_code = ? WHERE email = ?";
-  console.log("resending OTP...");
   db.query(query, [resetCode, email], (err, data) => {
     if (err) {
       throw err;
     } else {
       res.json({
-        status: "SUCCESS",
-        message: "OTP has been resent again",
+        status: "success",
+        message: "We have sent you a code",
         otp: resetCode,
       });
     }

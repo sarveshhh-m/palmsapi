@@ -8,9 +8,9 @@ export const handleLogin = (req, res) => {
     if (err) throw err;
 
     if (result.length === 0) {
-      return res.status(401).json({
-        status: "ERROR",
-        message: "Email does not exist",
+      return res.status(200).json({
+        status: "error",
+        message: "User does not exist",
       });
     }
     const user = result[0];
@@ -19,13 +19,13 @@ export const handleLogin = (req, res) => {
 
       if (isMatch) {
         return res.status(200).json({
-          status: "SUCCESS",
+          status: "success",
           message: "Login successful",
-          data: user,
+          userData: user,
         });
       } else {
-        return res.status(401).json({
-          status: "ERROR",
+        return res.status(200).json({
+          status: "error",
           message: "Invalid password! try again",
         });
       }

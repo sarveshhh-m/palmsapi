@@ -5,8 +5,7 @@ export const handleResetPassword = (req, res) => {
   const { email, newPassword } = req.body;
 
   const hashedPassword = bcrypt.hashSync(newPassword, 10);
-
-  // Update user's password in the database
+  
   const query = "UPDATE users SET password = ? WHERE email = ?";
   db.query(query, [hashedPassword, email], (err, result) => {
     if (err) {
